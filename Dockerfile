@@ -11,11 +11,7 @@ RUN rm -rf /srv/shiny-server/*
 WORKDIR /srv/shiny-server/
 
 # Copy Shiny files
-COPY /ui.R ./ui.R
-COPY /server.R ./server.R
-COPY /global.R ./global.R
-COPY /R ./R
-copy /www ./www
+COPY /app.R ./app.R
 
 # Copy renv.lock file
 COPY /renv.lock ./renv.lock
