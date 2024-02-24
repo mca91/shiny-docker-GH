@@ -1,5 +1,5 @@
 # Use shiny image
-FROM rocker/shiny:4.3.0
+FROM --platform=linux/amd64 rocker/shiny:latest
 
 # Update system libraries
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
@@ -12,16 +12,6 @@ WORKDIR /srv/shiny-server/
 
 # Copy Shiny files
 COPY /app.R ./app.R
-
-# Copy renv.lock file
-COPY /renv.lock ./renv.lock
-
-# Download renv and restore library
-ENV RENV_VERSION 1.0.0
-RUN Rscript -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
-RUN Rscript -e "remotes::install_github('rstudio/renv@v${RENV_VERSION}')"
-ENV RENV_PATHS_LIBRARY renv/library
-RUN Rscript -e 'renv::restore()'
 
 # Expose port
 EXPOSE 3838
